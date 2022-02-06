@@ -82,3 +82,22 @@ class InvestIntoProject(APIView):
                 "remaining_amount": investor.remaining_amount
             }
         )
+
+class MatchingInvestorsForProjects(APIView):
+
+    def get(self,request,pk):
+        project = get_object_or_404(Project.objects, pk=pk)
+        investors = project.matching_investors()
+        data={
+            "Matching investors for projects: ": investors
+        }
+        return Response(data=data)
+
+class MatchingProjectsForInvestors(APIView):
+    def get(self,request,pk):
+        investor = get_object_or_404(Investor, pk=pk)
+        projects = investor.matching_projects()
+        data={
+            "Matching projects for investors: ": projects
+        }
+        return Response(data=data)
